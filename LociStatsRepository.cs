@@ -325,6 +325,19 @@ public sealed class LociStatsRepository : IDisposable
         return ReadLogEntries(cmd);
     }
 
+    public List<LogEntry> GetRecentCompletedLogs(int limit)
+    {
+        using var cmd = _connection.CreateCommand();
+        cmd.CommandText = """
+            SELECT LogID, PalaceID, ActivityID, StartedAt, EndedAt, LociReviewed, FrontToBack
+            FROM log WHERE EndedAt IS NOT NULL
+            ORDER BY StartedAt DESC
+            LIMIT @n;
+            """;
+        cmd.Parameters.AddWithValue("@n", limit);
+        return ReadLogEntries(cmd);
+    }
+
     // ── Helpers ─────────────────────────────────────────────────────────
 
     private static List<LogEntry> ReadLogEntries(SqliteCommand cmd)

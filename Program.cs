@@ -190,7 +190,7 @@ void PrintUsage(bool plain)
     }
     else
     {
-        AnsiConsole.Write(new Panel(string.Join("\n", lines))
+        AnsiConsole.Write(new Panel(new Text(string.Join("\n", lines)))
             .Header("[bold blue]los[/]")
             .Border(BoxBorder.Rounded)
             .Padding(1, 0));
